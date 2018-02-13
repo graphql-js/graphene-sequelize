@@ -9,5 +9,6 @@ describe("index", () => {
     expect(Index).toHaveProperty("getSequelizeModel");
     expect(Index).toHaveProperty("setSequelizeModel");
     expect(Index).toHaveProperty("assertSequelizeModel");
+    expect(Index).toHaveProperty("assertRegistry");
   });
 });
