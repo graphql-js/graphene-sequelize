@@ -14,12 +14,12 @@ describe("utils", () => {
     lastName: Sequelize.STRING
   });
 
-  beforeEach(() => {
-    model.sync();
+  beforeEach(async () => {
+    await model.sync();
   });
 
-  afterEach(() => {
-    model.drop();
+  afterEach(async () => {
+    await model.drop();
   });
 
   test("assertSequelizeModel fails on non sequelize models", () => {

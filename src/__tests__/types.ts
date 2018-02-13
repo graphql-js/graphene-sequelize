@@ -18,7 +18,6 @@ describe("utils", () => {
   });
 
   beforeEach(async () => {
-    await sequelize.sync();
     await model.sync();
   });
 
@@ -53,7 +52,7 @@ describe("utils", () => {
     @SequelizeObjectType({ model: model })
     class User {
       @Field(String)
-      fullName(this: any) {
+      private fullName(this: any) {
         return `${this.name} ${this.lastName}`;
       }
     }
@@ -92,7 +91,7 @@ describe("utils", () => {
     }
 
     const schema = new Schema({ query: Query });
-    var result = await schema.execute(
+    const result = await schema.execute(
       `{ allUsers { id name lastName fullName } }`
     );
     expect(result).toMatchSnapshot();
