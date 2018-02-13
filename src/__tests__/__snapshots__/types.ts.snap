@@ -1,5 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`utils SequelizeObjectType can query 1`] = `
+Object {
+  "data": Object {
+    "allUsers": Array [
+      Object {
+        "fullName": "Lee Byron",
+        "id": 1,
+        "lastName": "Byron",
+        "name": "Lee",
+      },
+      Object {
+        "fullName": "Oleg Ilyenko",
+        "id": 2,
+        "lastName": "Ilyenko",
+        "name": "Oleg",
+      },
+      Object {
+        "fullName": "Sashko Stubailo",
+        "id": 3,
+        "lastName": "Stubailo",
+        "name": "Sashko",
+      },
+      Object {
+        "fullName": "Johannes Schickling",
+        "id": 4,
+        "lastName": "Schickling",
+        "name": "Johannes",
+      },
+    ],
+  },
+}
+`;
+
 exports[`utils SequelizeObjectType works 1`] = `
 Object {
   "createdAt": Object {
