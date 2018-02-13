@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Registry getSequelizeModel fails if doesn't have any model attached 1`] = `
+"The target class User {
+        } have no Sequelize type associated to it."
+`;
+
+exports[`Registry setSequelizeModel fails if model is already set 1`] = `
+"Type class User {
+        } already have a Sequelize model attached."
+`;

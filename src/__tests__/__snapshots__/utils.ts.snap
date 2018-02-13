@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`utils assertRegistry fails on non registry 1`] = `"Expected to receive a Registry instance. Received [object Object] instead."`;
+
+exports[`utils assertSequelizeModel fails on model instance 1`] = `"Expected to receive a Sequelize.Model. Received a sequelize instance instead: [object SequelizeInstance:user]."`;
+
+exports[`utils assertSequelizeModel fails on non sequelize models 1`] = `"Expected to receive a Sequelize.Model. Received null instead."`;

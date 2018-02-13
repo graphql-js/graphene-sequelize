@@ -1,0 +1,29 @@
+language: node_js
+
+# Allow Travis tests to run in containers.
+sudo: false
+
+node_js:
+#  - "4"
+  - "6"
+  - "8"
+
+cache:
+  directories:
+    - $HOME/.npm
+
+install:
+  - npm config set spin=false
+  - npm install -g coveralls
+  - npm install
+  - npm install sequelize@$GRAPHQL_VERSION
+
+script:
+  - npm run lint
+  - npm test -- --coverage
+  - coveralls < ./coverage/lcov.info || true # if coveralls doesn't have it covered
+
+env:
+#  - GRAPHQL_VERSION='^0.10'
+#  - GRAPHQL_VERSION='^0.11'
+  - GRAPHQL_VERSION='^4.33.3'

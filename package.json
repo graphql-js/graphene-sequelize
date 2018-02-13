@@ -1,0 +1,82 @@
+{
+  "name": "graphene-sequelize",
+  "version": "0.1.0",
+  "description": "Graphene Sequelize integration",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "clean": "rm -rf lib",
+    "compile": "tsc",
+    "watch": "tsc -w",
+    "prepublish": "npm run clean && npm run compile",
+    "test": "./node_modules/.bin/jest",
+    "posttest": "npm run lint",
+    "lint": "tslint $(find src | grep ts$)"
+  },
+  "repository": {
+    "type": "git",
+    "url": "graphql-js/graphene-sequelize"
+  },
+  "keywords": [
+    "GraphQL",
+    "Graphene",
+    "JavaScript",
+    "TypeScript",
+    "Schema",
+    "Schema Language",
+    "Tools"
+  ],
+  "author": "Syrus Akbary <me@syrusakbary.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/graphql-js/graphene-sequelize/",
+  "bugs": {
+    "url": "https://github.com/graphql-js/graphene-sequelize/issues"
+  },
+  "engines": {
+    "node": ">=6.0"
+  },
+  "devDependencies": {
+    "@types/common-tags": "^1.2.5",
+    "@types/glob": "^5.0.30",
+    "@types/graphql": "^0.9.4",
+    "@types/inflected": "^1.1.29",
+    "@types/jest": "^20.0.6",
+    "@types/node": "^8.0.51",
+    "@types/node-fetch": "^1.6.7",
+    "@types/yargs": "^8.0.2",
+    "ansi-regex": "^3.0.0",
+    "common-tags": "^1.4.0",
+    "jest": "^20.0.4",
+    "jest-matcher-utils": "^20.0.3",
+    "sequelize": "^4.33.3",
+    "sqlite3": "^3.1.13",
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.1"
+  },
+  "dependencies": {
+    "@types/sequelize": "^4.27.5",
+    "graphene-js": "*",
+    "reflect-metadata": "^0.1.12"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [],
+    "testMatch": ["**/__tests__/**/*.(js|ts)", "**/__tests__/*.(js|ts)"],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/lib/",
+      "<rootDir>/scripts/",
+      "<rootDir>/scripts/preprocessor.js"
+    ],
+    "collectCoverageFrom": ["src/**"],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/__snapshots__/",
+      ".*.d.ts"
+    ],
+    "transform": {
+      ".(js|ts)": "<rootDir>/scripts/preprocessor.js"
+    },
+    "moduleFileExtensions": ["ts", "js"]
+  }
+}
