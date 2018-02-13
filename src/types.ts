@@ -23,13 +23,18 @@ export const SequelizeObjectType = (opts: SequelizeObjectTypeConfig) => <
     assertRegistry(registry);
   }
   let attributes: ModelAttributes = (model as any).attributes;
-  let fields: Fields = attributesToFields(attributes);
-  for (let fieldName in fields) {
-    let field = fields[fieldName];
+  let modelFields: Fields = attributesToFields(attributes);
+  let baseFields = getFields(target);
+  for (let fieldName in modelFields) {
+    if (fieldName in baseFields) {
+      // If the field is already defined on the base
+      // objecttype, then we just skip it to avoid conflict.
+      continue;
+    }
+    let field = modelFields[fieldName];
     // We setup the field
     field(target.prototype, fieldName);
   }
-  // let fields = getFields(target);
   setSequelizeModel(target, model);
   return ObjectType(objectTypeOpts)(target);
 };

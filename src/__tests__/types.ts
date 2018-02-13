@@ -34,6 +34,17 @@ describe("utils", () => {
     ).toMatchSnapshot();
   });
 
+  test("SequelizeObjectType can overwrite field", () => {
+    @SequelizeObjectType({ model: model })
+    class User {
+      @Field(String) id: string;
+    }
+
+    expect(
+      (<GraphQLObjectType>getGraphQLType(User)).getFields()
+    ).toMatchSnapshot();
+  });
+
   test("SequelizeObjectType works", () => {
     expect(() => {
       @SequelizeObjectType({ model: <any>null })

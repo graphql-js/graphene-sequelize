@@ -1,5 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`utils SequelizeObjectType can overwrite field 1`] = `
+Object {
+  "createdAt": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "createdAt",
+    "resolve": [Function],
+    "type": "DateTime!",
+  },
+  "id": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "id",
+    "resolve": [Function],
+    "type": "String",
+  },
+  "lastName": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": "The last name",
+    "isDeprecated": false,
+    "name": "lastName",
+    "resolve": [Function],
+    "type": "String",
+  },
+  "name": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "name",
+    "resolve": [Function],
+    "type": "String",
+  },
+  "updatedAt": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "updatedAt",
+    "resolve": [Function],
+    "type": "DateTime!",
+  },
+}
+`;
+
 exports[`utils SequelizeObjectType can query 1`] = `
 Object {
   "data": Object {
