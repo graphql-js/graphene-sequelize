@@ -37,7 +37,7 @@ describe("utils", () => {
   test("SequelizeObjectType can overwrite field", () => {
     @SequelizeObjectType({ model: model })
     class User {
-      @Field(String) id: string;
+      @Field(String) public id: string;
     }
 
     expect(
