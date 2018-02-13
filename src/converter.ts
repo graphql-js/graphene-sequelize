@@ -82,7 +82,7 @@ export const attributesToFields = (attributes: ModelAttributes): Fields => {
     if (attribute.allowNull === false) {
       grapheneType = NonNull(grapheneType);
     }
-    fields[attrName] = Field(grapheneType);
+    fields[attrName] = Field(grapheneType, { description: attribute.comment });
   }
   return fields;
 };

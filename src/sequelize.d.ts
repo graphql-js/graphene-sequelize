@@ -8,6 +8,7 @@ export type ModelAttributes = {
     primaryKey?: boolean;
     fieldName: string;
     field: string;
+    comment?: string;
   };
 };
 

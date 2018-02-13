@@ -14,7 +14,7 @@ describe("utils", () => {
 
   let model: Model = sequelize.define("user", {
     name: Sequelize.STRING,
-    lastName: Sequelize.STRING
+    lastName: { type: Sequelize.STRING, comment: "The last name" }
   });
 
   beforeEach(() => {

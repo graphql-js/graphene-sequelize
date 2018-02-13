@@ -23,7 +23,7 @@ Object {
   "lastName": Object {
     "args": Array [],
     "deprecationReason": undefined,
-    "description": undefined,
+    "description": "The last name",
     "isDeprecated": false,
     "name": "lastName",
     "resolve": [Function],
