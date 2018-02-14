@@ -1,10 +1,17 @@
-import { getFields } from "graphene-js";
+import { GraphQLObjectType } from "graphql";
 import * as Sequelize from "sequelize";
+import {
+  getFields,
+  getGraphQLType,
+  ObjectType,
+  Field,
+  ID,
+  Schema
+} from "graphene-js";
+
 import { Model } from "./../utils";
 import { SequelizeObjectType } from "./../types";
 import { Registry } from "./../registry";
-import { getGraphQLType, ObjectType, Field, ID, Schema } from "graphene-js";
-import { GraphQLObjectType } from "../../../graphene-js/node_modules/@types/graphql";
 import { resetGlobalRegistry } from "..";
 
 describe("utils", () => {
