@@ -16,7 +16,7 @@ install:
   - npm config set spin=false
   - npm install -g coveralls
   - npm install
-  - npm install sequelize@$GRAPHQL_VERSION
+  - npm install sequelize@$SEQUELIZE_VERSION
 
 script:
   - npm run lint
@@ -26,4 +26,4 @@ script:
 env:
 #  - GRAPHQL_VERSION='^0.10'
 #  - GRAPHQL_VERSION='^0.11'
-  - GRAPHQL_VERSION='^4.33.3'
+  - SEQUELIZE_VERSION='^4.33.3'
