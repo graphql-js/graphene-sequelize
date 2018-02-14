@@ -65,7 +65,7 @@ After we've done that, we will list those types as fields in the ``Query`` class
 
 .. code:: typescript
 
-    import { ObjectType, Field, NonNull } from "graphene";
+    import { ObjectType, Field, NonNull } from "graphene-js";
     import { SequelizeObjectType } from "graphene-sequelize";
 
     @SequelizeObjectType({model: Project})

@@ -28,7 +28,7 @@ const UserModel = sequelize.define("user", {
 To create a GraphQL schema for it you simply have to write the following:
 
 ```js
-import { ObjectType, Field, Schema } from "graphene";
+import { ObjectType, Field, Schema } from "graphene-js";
 import { SequelizeObjectType } from "graphene-sequelize";
 
 @SequelizeObjectType({ model: UserModel })
