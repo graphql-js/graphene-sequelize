@@ -24,7 +24,7 @@ const DataTypes: DT = (Sequelize as any).DataTypes;
 
 type DataType = DT[keyof DT];
 
-const ATTR_MAPPING: Map<DataType, any> = new Map([
+const ATTR_MAPPING = [
   // [DataTypes.ABSTRACT, null],
   [DataTypes.STRING, String],
   [DataTypes.CHAR, String],
@@ -59,10 +59,10 @@ const ATTR_MAPPING: Map<DataType, any> = new Map([
   [DataTypes.DOUBLE, Float],
   [DataTypes["DOUBLE PRECISION"], Float],
   [DataTypes.GEOMETRY, null]
-]);
+];
 
 export const getGrapheneTypeFromAttributeType = (type: DataType): any => {
-  for (let [dataType, grapheneType] of ATTR_MAPPING.entries()) {
+  for (let [dataType, grapheneType] of ATTR_MAPPING) {
     // console.log(dataType);
     if (type instanceof <any>dataType) {
       return grapheneType;
@@ -95,7 +95,7 @@ const getResolverGetter = (
   model: Sequelize.Model<any, any>,
   name: string
 ): Function => {
-  return (<any>model.prototype)[
+  return (<any>model).prototype[
     "get" + name.substr(0, 1).toUpperCase() + name.substr(1)
   ];
 };

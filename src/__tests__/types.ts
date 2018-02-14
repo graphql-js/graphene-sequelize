@@ -1,4 +1,4 @@
-import { getFields } from "graphene-js/src";
+import { getFields } from "graphene-js";
 import * as Sequelize from "sequelize";
 import { Model } from "./../utils";
 import { SequelizeObjectType } from "./../types";
@@ -183,7 +183,7 @@ describe("utils", () => {
     @ObjectType()
     class Query {
       @Field(Company)
-      company() {
+      protected company() {
         return company;
       }
     }

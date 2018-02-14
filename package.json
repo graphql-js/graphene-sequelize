@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@types/sequelize": "^4.27.5",
-    "graphene-js": "*",
+    "graphene-js": "^0.5.1",
     "reflect-metadata": "^0.1.12"
   },
   "jest": {
