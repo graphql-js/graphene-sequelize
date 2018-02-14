@@ -2,10 +2,10 @@ import { assertSequelizeModel, Model } from "./utils";
 import * as Sequelize from "sequelize";
 import { getSequelizeModel } from "./reflection";
 
-type RegistryMapping = Sequelize.Model<any, any>[];
+export type RegistryMapping = Sequelize.Model<any, any>[];
 
 export class Registry {
-  private mapping: RegistryMapping[];
+  public mapping: RegistryMapping[];
   constructor() {
     this.mapping = [];
   }

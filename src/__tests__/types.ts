@@ -1,9 +1,11 @@
+import { getFields } from "graphene-js/src";
 import * as Sequelize from "sequelize";
 import { Model } from "./../utils";
 import { SequelizeObjectType } from "./../types";
 import { Registry } from "./../registry";
 import { getGraphQLType, ObjectType, Field, ID, Schema } from "graphene-js";
 import { GraphQLObjectType } from "../../../graphene-js/node_modules/@types/graphql";
+import { resetGlobalRegistry } from "..";
 
 describe("utils", () => {
   const sequelize = new Sequelize("db", "username", "pass", {
@@ -12,21 +14,62 @@ describe("utils", () => {
     logging: () => null
   });
 
-  let model: Model = sequelize.define("user", {
+  let userModel: Model = sequelize.define("user", {
     name: Sequelize.STRING,
     lastName: { type: Sequelize.STRING, comment: "The last name" }
   });
 
+  let companyModel: Model = sequelize.define("company", {
+    name: Sequelize.STRING
+  });
+
+  // companyModel.hasOne(userModel, { as: "owner" });
+  companyModel.belongsToMany(userModel, {
+    as: "employees",
+    through: "CompanyEmployees",
+    foreignKey: "companyId"
+  });
+
+  const createCompany = async (employees: any[]) => {
+    let company = await companyModel.create({
+      name: "GraphQL"
+    });
+    await company.setEmployees(employees);
+    return company;
+  };
+
+  const createUsers = async () => {
+    await userModel.create({
+      name: "Lee",
+      lastName: "Byron"
+    });
+
+    await userModel.create({
+      name: "Oleg",
+      lastName: "Ilyenko"
+    });
+
+    await userModel.create({
+      name: "Sashko",
+      lastName: "Stubailo"
+    });
+
+    await userModel.create({
+      name: "Johannes",
+      lastName: "Schickling"
+    });
+  };
   beforeEach(async () => {
-    await model.sync();
+    resetGlobalRegistry();
+    await sequelize.sync();
   });
 
   afterEach(async () => {
-    await model.drop();
+    await sequelize.drop();
   });
 
   test("SequelizeObjectType works", () => {
-    @SequelizeObjectType({ model: model })
+    @SequelizeObjectType({ model: userModel })
     class User {}
 
     expect(
@@ -35,7 +78,7 @@ describe("utils", () => {
   });
 
   test("SequelizeObjectType can overwrite field", () => {
-    @SequelizeObjectType({ model: model })
+    @SequelizeObjectType({ model: userModel })
     class User {
       @Field(String) public id: string;
     }
@@ -54,13 +97,13 @@ describe("utils", () => {
 
   test("SequelizeObjectType works", () => {
     expect(() => {
-      @SequelizeObjectType({ model: model, registry: <any>{} })
+      @SequelizeObjectType({ model: userModel, registry: <any>{} })
       class User {}
     }).toThrowErrorMatchingSnapshot();
   });
 
   test("SequelizeObjectType can query", async () => {
-    @SequelizeObjectType({ model: model })
+    @SequelizeObjectType({ model: userModel })
     class User {
       @Field(String)
       private fullName(this: any) {
@@ -68,42 +111,86 @@ describe("utils", () => {
       }
     }
 
-    await model.create({
-      name: "Lee",
-      lastName: "Byron"
-    });
-
-    await model.create({
-      name: "Oleg",
-      lastName: "Ilyenko"
-    });
-
-    await model.create({
-      name: "Sashko",
-      lastName: "Stubailo"
-    });
-
-    await model.create({
-      name: "Johannes",
-      lastName: "Schickling"
-    });
-
     @ObjectType()
     class Query {
       @Field(User, { args: { id: ID } })
       private getUser({ id }: { id: string }) {
-        return model.findById(id);
+        return userModel.findById(id);
       }
 
       @Field([User])
       private allUsers() {
-        return model.findAll();
+        return userModel.findAll();
+      }
+    }
+
+    await createUsers();
+
+    const schema = new Schema({ query: Query });
+    const result = await schema.execute(
+      `{ allUsers { id name lastName fullName } }`
+    );
+    expect(result).toMatchSnapshot();
+  });
+
+  test("SequelizeObjectType set many relations", () => {
+    @SequelizeObjectType({ model: userModel })
+    class User {}
+
+    @SequelizeObjectType({ model: companyModel })
+    class Company {}
+
+    expect(
+      (<GraphQLObjectType>getGraphQLType(Company)).getFields()
+    ).toHaveProperty("employees");
+
+    expect(
+      (<GraphQLObjectType>getGraphQLType(Company)).getFields()
+    ).toMatchSnapshot();
+  });
+
+  test("SequelizeObjectType set many relations (reverse registration)", () => {
+    @SequelizeObjectType({ model: companyModel })
+    class Company {}
+
+    @SequelizeObjectType({ model: userModel })
+    class User {}
+
+    expect(
+      (<GraphQLObjectType>getGraphQLType(Company)).getFields()
+    ).toHaveProperty("employees");
+
+    expect(
+      (<GraphQLObjectType>getGraphQLType(Company)).getFields()
+    ).toMatchSnapshot();
+  });
+
+  test("SequelizeObjectType many relations can resolve", async () => {
+    @SequelizeObjectType({ model: companyModel })
+    class Company {}
+
+    @SequelizeObjectType({ model: userModel })
+    class User {
+      @Field(String)
+      private fullName(this: any) {
+        return `${this.name} ${this.lastName}`;
+      }
+    }
+
+    await createUsers();
+    let employees = await userModel.findAll();
+    let company = await createCompany(employees);
+    @ObjectType()
+    class Query {
+      @Field(Company)
+      company() {
+        return company;
       }
     }
 
     const schema = new Schema({ query: Query });
     const result = await schema.execute(
-      `{ allUsers { id name lastName fullName } }`
+      `{ company { id, employees { id fullName } } }`
     );
     expect(result).toMatchSnapshot();
   });

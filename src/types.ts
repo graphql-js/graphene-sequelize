@@ -1,9 +1,9 @@
-import { attributesToFields, Fields } from "./converter";
+import { attributesToFields, associationsToFields, Fields } from "./converter";
 import { setSequelizeModel } from "./reflection";
 import { assertSequelizeModel, Model, assertRegistry } from "./utils";
 import { Registry, getGlobalRegistry } from "./registry";
 import { getFields, ObjectTypeConfig, ObjectType } from "graphene-js";
-import { ModelAttributes } from "./sequelize";
+import { ModelAttributes, ModelAssociations } from "./sequelize";
 
 export type SequelizeObjectTypeConfig = ObjectTypeConfig & {
   model: Model;
@@ -23,8 +23,19 @@ export const SequelizeObjectType = (opts: SequelizeObjectTypeConfig) => <
     assertRegistry(registry);
   }
   let attributes: ModelAttributes = (model as any).attributes;
-  let modelFields: Fields = attributesToFields(attributes);
+  let associations: ModelAssociations = (model as any).associations;
+  // console.log((model as any).associations);
+  // console.log(target.name, model.);
+  let modelAttributeFields: Fields = attributesToFields(attributes);
+  let modelAssociationFields: Fields = associationsToFields(
+    associations,
+    registry
+  );
   let baseFields = getFields(target);
+  let modelFields: Fields = {
+    ...modelAttributeFields,
+    ...modelAssociationFields
+  };
   for (let fieldName in modelFields) {
     if (fieldName in baseFields) {
       // If the field is already defined on the base
@@ -36,5 +47,6 @@ export const SequelizeObjectType = (opts: SequelizeObjectTypeConfig) => <
     field(target.prototype, fieldName);
   }
   setSequelizeModel(target, model);
+  registry.register(target);
   return ObjectType(objectTypeOpts)(target);
 };

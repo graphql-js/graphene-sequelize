@@ -1,5 +1,6 @@
+import { ModelAssociations } from "./sequelize.d";
 import * as Sequelize from "sequelize";
-import { DataTypes as DT } from "sequelize";
+import { DataTypes as DT, Associations } from "sequelize";
 import {
   Int,
   Float,
@@ -10,12 +11,15 @@ import {
   ID,
   List,
   NonNull,
-  Field
+  Field,
+  DynamicField,
+  FieldConfig
 } from "graphene-js";
 import { ModelAttributes } from "./sequelize";
+import { Registry } from ".";
 
 // Hack to fix the typing issue on Sequelize
-// as DataTypes is written as an interface rather than a object structure.
+// as DataTypes is written as an interface rather than a proper type structure.
 const DataTypes: DT = (Sequelize as any).DataTypes;
 
 type DataType = DT[keyof DT];
@@ -83,6 +87,79 @@ export const attributesToFields = (attributes: ModelAttributes): Fields => {
       grapheneType = NonNull(grapheneType);
     }
     fields[attrName] = Field(grapheneType, { description: attribute.comment });
+  }
+  return fields;
+};
+
+const getResolverGetter = (
+  model: Sequelize.Model<any, any>,
+  name: string
+): Function => {
+  return (<any>model.prototype)[
+    "get" + name.substr(0, 1).toUpperCase() + name.substr(1)
+  ];
+};
+
+export const associationsToFields = (
+  associations: ModelAssociations,
+  registry: Registry
+): Fields => {
+  let fields: Fields = {};
+  for (let associationName in associations) {
+    let association = associations[associationName];
+    // let fieldType: any;
+    // fields[associationName] = Field()
+    switch (association.associationType) {
+      case "HasMany":
+      case "BelongsToMany":
+        fields[associationName] = DynamicField((): FieldConfig | null => {
+          let targetType = registry.getTypeForModel(association.target);
+          if (!targetType) {
+            return null;
+          }
+          let resolverGetter = getResolverGetter(
+            association.source,
+            associationName
+          );
+
+          return {
+            type: List(targetType),
+            resolver: function(root: any) {
+              return resolverGetter.call(root);
+            }
+          };
+        });
+        break;
+      case "HasOne":
+      case "BelongsTo":
+        fields[associationName] = DynamicField((): FieldConfig | null => {
+          let targetType = registry.getTypeForModel(association.target);
+          if (!targetType) {
+            return null;
+          }
+          let resolverGetter = getResolverGetter(
+            association.source,
+            associationName
+          );
+          return {
+            type: targetType,
+            resolver: function(root: any) {
+              return resolverGetter.call(root);
+            }
+          };
+        });
+        break;
+      default:
+        break;
+    }
+    // if ()
+    // console.log(
+    //   associationName,
+    //   association.source,
+    //   association.target,
+    //   association.as,
+    //   association.associationType
+    // );
   }
   return fields;
 };

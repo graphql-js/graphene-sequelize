@@ -83,6 +83,134 @@ Object {
 }
 `;
 
+exports[`utils SequelizeObjectType many relations can resolve 1`] = `
+Object {
+  "data": Object {
+    "company": Object {
+      "employees": Array [
+        Object {
+          "fullName": "Lee Byron",
+          "id": 1,
+        },
+        Object {
+          "fullName": "Oleg Ilyenko",
+          "id": 2,
+        },
+        Object {
+          "fullName": "Sashko Stubailo",
+          "id": 3,
+        },
+        Object {
+          "fullName": "Johannes Schickling",
+          "id": 4,
+        },
+      ],
+      "id": 1,
+    },
+  },
+}
+`;
+
+exports[`utils SequelizeObjectType set many relations (reverse registration) 1`] = `
+Object {
+  "createdAt": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "createdAt",
+    "resolve": [Function],
+    "type": "DateTime!",
+  },
+  "employees": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "employees",
+    "resolve": [Function],
+    "type": "[User]",
+  },
+  "id": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "id",
+    "resolve": [Function],
+    "type": "Int!",
+  },
+  "name": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "name",
+    "resolve": [Function],
+    "type": "String",
+  },
+  "updatedAt": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "updatedAt",
+    "resolve": [Function],
+    "type": "DateTime!",
+  },
+}
+`;
+
+exports[`utils SequelizeObjectType set many relations 1`] = `
+Object {
+  "createdAt": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "createdAt",
+    "resolve": [Function],
+    "type": "DateTime!",
+  },
+  "employees": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "employees",
+    "resolve": [Function],
+    "type": "[User]",
+  },
+  "id": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "id",
+    "resolve": [Function],
+    "type": "Int!",
+  },
+  "name": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "name",
+    "resolve": [Function],
+    "type": "String",
+  },
+  "updatedAt": Object {
+    "args": Array [],
+    "deprecationReason": undefined,
+    "description": undefined,
+    "isDeprecated": false,
+    "name": "updatedAt",
+    "resolve": [Function],
+    "type": "DateTime!",
+  },
+}
+`;
+
 exports[`utils SequelizeObjectType works 1`] = `
 Object {
   "createdAt": Object {
