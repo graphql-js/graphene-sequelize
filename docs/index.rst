@@ -1,5 +1,5 @@
-Graphene
-========
+Graphene Sequelize
+==================
 
 Contents:
 
