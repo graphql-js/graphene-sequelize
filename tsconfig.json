@@ -5,7 +5,6 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
-    "rootDir": "./src",
     "outDir": "./lib",
     "removeComments": true,
     "strict": true,
@@ -19,6 +18,11 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*", "test/**/*", "examples/*", "examples/starwars-ts/*"],
+  "include": [
+    "src/**/*",
+    "test/**/*",
+    "examples/**/*",
+    "examples/cookbook-ts/*"
+  ],
   "exclude": ["node_modules", "dist"]
 }
