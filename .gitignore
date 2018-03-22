@@ -9,3 +9,4 @@ lib
 !.vscode/extensions.json
 /coverage
 /.vscode
+*.sqlite
